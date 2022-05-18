@@ -120,8 +120,6 @@ const updateReview = async function (req, res) {
         else {
             return res.status(400).send({ status: false, msg: "can't update because this book is not present" })
         }
-
-
     }
     catch (error) {
         console.log(error)
