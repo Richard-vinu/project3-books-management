@@ -5,7 +5,7 @@ const bookModel = require('../models/bookModel')
 const{isValidObjectId,isValidRequestBody,isValid} = require('../validations/validator')
 
 
-//=================CREATE BOOK =====================================
+//---------------------CREATE BOOK--------------------
 const createBook = async (req, res) => {
 
   
@@ -156,7 +156,7 @@ const getBookById = async (req, res) => {
   }
 }
 
-//UpdateBook
+//---------------------UpdateBook-----------------
 
 const updateBook = async function (req, res) {
   try {

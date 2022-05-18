@@ -7,7 +7,7 @@ const {
   isValid
 } = require("../validations/validator");
 
-//create review
+//-------------Create review--------------------
 
 const addReview = async (req, res) => {
   try {
@@ -36,11 +36,6 @@ const addReview = async (req, res) => {
       return res.status(400).send({ status: false, message: "Enter valid data in review and reviewedBy" })
     }
 
-    // if (isDeleted == true) {
-    //     return res
-    //       .status(400)
-    //       .send({ status: false, message: "Cannot input isDeleted as true while registering" });
-    //   }  
     if (isDeleted == true) {
         return res
           .status(400)
@@ -66,7 +61,7 @@ const addReview = async (req, res) => {
   }
 }
 
-//Update Review
+//-------------------Update Review-----------------
 
 const updateReview = async function (req, res) {
 

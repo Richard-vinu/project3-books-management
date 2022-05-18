@@ -11,7 +11,6 @@ router.post("/register",userController.createUser)
 router.post('/login', userController.userLogin)
 
 //Books APIs
-
 router.post("/books",authentication,bookController.createBook)
 router.get("/books",authentication,bookController.getBooks)
 router.get("/books/:bookId",authentication,bookController.getBookById)
