@@ -3,15 +3,50 @@ const userModel= require('../models/userModel')
 const reviewModel = require('../models/reviewModel')
 const bookModel = require('../models/bookModel')
 const{isValidObjectId,isValidRequestBody,isValid} = require('../validations/validator')
+const multer = require('multer');
+const aws = require('aws-sdk');
+
+
+aws.config.update(
+    {
+        accessKeyId: "AKIAY3L35MCRUJ6WPO6J",
+        secretAccessKey: "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",
+        region: "ap-south-1"
+    }
+)
+
+let uploadFile = async (file) => {
+    return new Promise( function(resolve, reject) {
+        //this function will upload file to aws and return the link
+        let s3 = new aws.S3({ apiVersion: "2006-03-01" }) //we will be using s3 service of aws
+        //  await uploadFile(files[0])
+        var uploadParams = {
+            ACL: "public-read",
+            Bucket: "classroom-training-bucket", // HERE
+            Key: "ninja/" + file.originalname, // HERE 
+            Body: file.buffer
+        }
+
+      s3.upload(uploadParams, function (err, data) {
+            if (err) { 
+                return reject({ "error": err }) 
+            }
+
+            console.log(data)
+            console.log(" file uploaded succesfully ")
+            return resolve(data.Location) // HERE
+          }
+        )})}
 
 
 //---------------------CREATE BOOK--------------------
 const createBook = async (req, res) => {
 
-  
   try {
       // Extract body 
       const reqBody = req.body;
+
+      const files = req.files;
 
       // Object Destructing
       const { title, excerpt, userId, ISBN, category, subcategory, releasedAt, reviews,isDeleted
@@ -26,6 +61,7 @@ const createBook = async (req, res) => {
       if (!isValid(title)) {
           return res.status(400).send({ status: false, message: 'Title is Required' });
       }
+      
       
       // Check duplicate title
       const duplicateTitle = await bookModel.findOne({ title: title })
@@ -98,6 +134,10 @@ const createBook = async (req, res) => {
           return res.status(400).send({ status: false, message: "No Data Should Be Deleted At The Time Of Creation" })
       }
  // After All Successful Validation then Create Book
+
+     const uploadedFileURL = await uploadFile(files[0])
+        data.bookCover= uploadedFileURL;
+
       const bookDetails = await bookModel.create(reqBody)
       return res.status(201).send({ status: true, message: 'successfully created ', data: { bookDetails } })
           
