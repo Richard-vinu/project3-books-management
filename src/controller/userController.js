@@ -60,11 +60,11 @@ const createUser = async function (req, res) {
         }
       
         
-        if (isDeleted == true) {
-            return res
-              .status(400)
-              .send({ status: false, message: "Cannot input isDeleted as true while registering" });
-          } 
+        // if (isDeleted == true) {
+        //     return res
+        //       .status(400)
+        //       .send({ status: false, message: "Cannot input isDeleted as true while registering" });
+        //   } 
 
         const NewUsers = await userModel.create(user)
         return res.status(201).send({ Status: true, msg: "Data sucessfully Created", data: NewUsers })
@@ -117,7 +117,7 @@ const userLogin = async function(req,res){
            batch: "uranium",
            organisation: 'FunctionUp',
             iat: new Date().getTime() /1000 
-       },"My private key" ,{expiresIn:"30m"}
+       },"My private key" ,{expiresIn:"300m"}
            
        );
 

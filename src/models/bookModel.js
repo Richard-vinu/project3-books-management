@@ -17,7 +17,7 @@ const bookSchema = new mongoose.Schema({
     bookCover: { type: String },
     userId: {
         type: ObjectId,
-        ref: 'usersdatas',
+        ref: 'user',
         required: true,
         trim: true
     },

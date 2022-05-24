@@ -11,8 +11,6 @@ const {
 
 const addReview = async (req, res) => {
   try {
-
-
     let data = req.body;
     if(!isValidRequestBody(data)) return res.status(400).send({ status: false, message: "Details required to add review to book" });
     let bookId = req.params.bookId;
@@ -36,11 +34,11 @@ const addReview = async (req, res) => {
       return res.status(400).send({ status: false, message: "Enter valid data in review and reviewedBy" })
     }
 
-    if (isDeleted == true) {
-        return res
-          .status(400)
-          .send({ status: false, message: "Cannot input isDeleted as true while registering" });
-      }  
+    // if (isDeleted == true) {
+    //     return res
+    //       .status(400)
+    //       .send({ status: false, message: "Cannot input isDeleted as true while registering" });
+    //   }  
 
     if(!validString(data.rating)) return res.status(400).send({ status: false, message: "Rating should be in numbers" });
     if(!((data.rating < 6) && (data.rating > 0))) return res.status(400).send({ status: false, message: "Rating should be between 1 - 5 numbers" });

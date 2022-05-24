@@ -3,7 +3,7 @@ const userModel= require('../models/userModel')
 const reviewModel = require('../models/reviewModel')
 const bookModel = require('../models/bookModel')
 const{isValidObjectId,isValidRequestBody,isValid} = require('../validations/validator')
-const multer = require('multer');
+//const multer = require('multer');
 const aws = require('aws-sdk');
 
 
@@ -74,8 +74,6 @@ const createBook = async (req, res) => {
           return res.status(400).send({ status: false, message: 'Excerpt is Required' });
       }
 
-     
-
       // Check userId is coming or not
       if (!isValid(userId)) {
           return res.status(400).send({ status: false, message: 'userId is Required' });
@@ -112,31 +110,37 @@ const createBook = async (req, res) => {
       if (!isValid(category)) {
           return res.status(400).send({ status: false, message: 'category is Required' });
       }
+
  // Check subcategory is coming or not
       if (!isValid(subcategory)) {
           return res.status(400).send({ status: false, message: 'subcategory is Required' });
       }
+
 // Check releasedAt is coming or not
       if (!isValid(releasedAt)) {
           return res.status(400).send({ status: false, message: 'Please Enter Released Date' });
       }
+
 // Check releasedAt Value should be in given format
       let reAt = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;// YYYY-MM-DD
       if (!reAt.test(releasedAt)) {
           return res.status(400).send({ status: false, message: "Released Date Format Should be in 'YYYY-MM-DD' Format " });
       }
+
 // Valid reviews when reviews are coming
       if (reviews && (typeof reviews !== 'number')) {
           return res.status(400).send({ status: false, message: "Reviews Must be numbers" })
       }
+
 // Check if isDeleted true
       if(isDeleted === true){
           return res.status(400).send({ status: false, message: "No Data Should Be Deleted At The Time Of Creation" })
       }
+
  // After All Successful Validation then Create Book
 
-     const uploadedFileURL = await uploadFile(files[0])
-        data.bookCover= uploadedFileURL;
+    //  const uploadedFileURL = await uploadFile(files[0])
+    //     data.bookCover= uploadedFileURL;
 
       const bookDetails = await bookModel.create(reqBody)
       return res.status(201).send({ status: true, message: 'successfully created ', data: { bookDetails } })
